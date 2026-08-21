@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginMessage = document.getElementById("login-message");
 
   // Activity categories with corresponding colors
+  const SCHOOL_NAME = "Mergington High School";
+
   const activityTypes = {
     sports: { label: "Sports", color: "#e8f5e9", textColor: "#2e7d32" },
     arts: { label: "Arts", color: "#f3e5f5", textColor: "#7b1fa2" },
@@ -308,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const activityUrl = `${window.location.origin}${
       window.location.pathname
     }?activity=${encodeURIComponent(activityName)}`;
-    const shareText = `Check out ${activityName} at Mergington High School! ${details.description} (${formattedSchedule})`;
+    const shareText = `Check out ${activityName} at ${SCHOOL_NAME}! ${details.description} (${formattedSchedule})`;
 
     return {
       title: `Mergington Activity: ${activityName}`,
