@@ -305,7 +305,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getShareData(activityName, details, formattedSchedule) {
-    const activityUrl = `${window.location.origin}${window.location.pathname}`;
+    const activityUrl = `${window.location.origin}${
+      window.location.pathname
+    }?activity=${encodeURIComponent(activityName)}`;
     const shareText = `Check out ${activityName} at Mergington High School! ${details.description} (${formattedSchedule})`;
 
     return {
@@ -335,6 +337,15 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         if (error.name === "AbortError") {
           return;
+        }
+
+        function initializeSharedActivityFromUrl() {
+          const params = new URLSearchParams(window.location.search);
+          const sharedActivity = params.get("activity");
+          if (sharedActivity) {
+            searchQuery = sharedActivity;
+            searchInput.value = sharedActivity;
+          }
         }
       }
     }
@@ -934,5 +945,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize app
   checkAuthentication();
   initializeFilters();
+  initializeSharedActivityFromUrl();
   fetchActivities();
 });
