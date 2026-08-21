@@ -113,7 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
       applyTheme(savedTheme);
       return;
     }
-    applyTheme("light");
+
+    const prefersDarkMode =
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(prefersDarkMode ? "dark" : "light");
   }
 
   // Check if user is already logged in (from localStorage)

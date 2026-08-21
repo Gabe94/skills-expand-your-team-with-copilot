@@ -30,6 +30,8 @@
   --error-light: #ffebee;
   --info: #0c5460;
   --info-light: #d1ecf1;
+  --theme-toggle-bg: rgba(255, 255, 255, 0.2);
+  --theme-toggle-hover-bg: rgba(255, 255, 255, 0.3);
 }
 
 body.dark-mode {
@@ -44,6 +46,8 @@ body.dark-mode {
   --border: #3a3a3a;
   --border-light: #2a2a2a;
   --border-focus: #4a4a4a;
+  --theme-toggle-bg: rgba(0, 0, 0, 0.15);
+  --theme-toggle-hover-bg: rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -637,11 +641,11 @@ footer {
 }
 
 #theme-toggle {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--theme-toggle-bg);
 }
 
 #theme-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--theme-toggle-hover-bg);
 }
 
 #user-status {
