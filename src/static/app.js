@@ -312,9 +312,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }?activity=${encodeURIComponent(activityName)}`;
     const descriptionText = details.description ? `${details.description} ` : "";
     const scheduleText = formattedSchedule ? `(${formattedSchedule})` : "";
-    const shareText =
+    const shareText = (
       `Check out ${activityName} at ${SCHOOL_NAME}! ` +
-      `${descriptionText}${scheduleText}`.trim();
+      `${descriptionText}${scheduleText}`
+    ).trim();
 
     return {
       title: `${SCHOOL_NAME} Activity: ${activityName}`,
