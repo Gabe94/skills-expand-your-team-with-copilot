@@ -476,6 +476,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to display filtered activities
   function displayFilteredActivities() {
+    searchQuery = searchInput.value.trim();
+
     // Clear the activities list
     activitiesList.innerHTML = "";
 
