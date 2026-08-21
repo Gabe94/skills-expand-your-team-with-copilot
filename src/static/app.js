@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareText = `Check out ${activityName} at ${SCHOOL_NAME}! ${details.description} (${formattedSchedule})`;
 
     return {
-      title: `Mergington Activity: ${activityName}`,
+      title: `${SCHOOL_NAME} Activity: ${activityName}`,
       text: shareText,
       url: activityUrl,
     };
@@ -358,6 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sharedActivity) {
       searchQuery = sharedActivity;
       searchInput.value = sharedActivity;
+      searchInput.dispatchEvent(new Event("input"));
     }
   }
 
