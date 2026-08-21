@@ -643,14 +643,13 @@ document.addEventListener("DOMContentLoaded", () => {
         </button>
         <a
           class="share-button share-link-button"
-          href="#"
-          data-share-link="whatsapp"
+          href="${whatsappShareUrl}"
           target="_blank"
           rel="noopener noreferrer"
         >
           WhatsApp
         </a>
-        <a class="share-button share-link-button" href="#" data-share-link="email">
+        <a class="share-button share-link-button" href="${emailShareUrl}">
           Email
         </a>
       </div>
@@ -679,18 +678,6 @@ document.addEventListener("DOMContentLoaded", () => {
       nativeShareButton.addEventListener("click", () => {
         shareActivity(shareData);
       });
-    }
-
-    const whatsappShareLink = activityCard.querySelector(
-      '[data-share-link="whatsapp"]'
-    );
-    if (whatsappShareLink) {
-      whatsappShareLink.setAttribute("href", whatsappShareUrl);
-    }
-
-    const emailShareLink = activityCard.querySelector('[data-share-link="email"]');
-    if (emailShareLink) {
-      emailShareLink.setAttribute("href", emailShareUrl);
     }
 
     activitiesList.appendChild(activityCard);
