@@ -338,15 +338,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (error.name === "AbortError") {
           return;
         }
-
-        function initializeSharedActivityFromUrl() {
-          const params = new URLSearchParams(window.location.search);
-          const sharedActivity = params.get("activity");
-          if (sharedActivity) {
-            searchQuery = sharedActivity;
-            searchInput.value = sharedActivity;
-          }
-        }
       }
     }
 
@@ -356,6 +347,15 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage("Share text copied. You can paste it anywhere.", "success");
     } catch (error) {
       showMessage("Sharing is not supported on this device.", "error");
+    }
+  }
+
+  function initializeSharedActivityFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const sharedActivity = params.get("activity");
+    if (sharedActivity) {
+      searchQuery = sharedActivity;
+      searchInput.value = sharedActivity;
     }
   }
 
