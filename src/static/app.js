@@ -310,7 +310,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const activityUrl = `${window.location.origin}${
       window.location.pathname
     }?activity=${encodeURIComponent(activityName)}`;
-    const shareText = `Check out ${activityName} at ${SCHOOL_NAME}! ${details.description} (${formattedSchedule})`;
+    const descriptionText = details.description ? `${details.description} ` : "";
+    const scheduleText = formattedSchedule ? `(${formattedSchedule})` : "";
+    const shareText =
+      `Check out ${activityName} at ${SCHOOL_NAME}! ` +
+      `${descriptionText}${scheduleText}`.trim();
 
     return {
       title: `${SCHOOL_NAME} Activity: ${activityName}`,
@@ -670,9 +674,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const nativeShareButton = activityCard.querySelector(
       '[data-share-platform="native"]'
     );
-    nativeShareButton.addEventListener("click", () => {
-      shareActivity(shareData);
-    });
+    if (nativeShareButton) {
+      nativeShareButton.addEventListener("click", () => {
+        shareActivity(shareData);
+      });
+    }
 
     activitiesList.appendChild(activityCard);
   }
