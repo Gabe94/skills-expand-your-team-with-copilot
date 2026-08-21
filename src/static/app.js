@@ -304,6 +304,50 @@ document.addEventListener("DOMContentLoaded", () => {
     return details.schedule;
   }
 
+  function getShareData(activityName, details, formattedSchedule) {
+    const activityUrl = `${window.location.origin}${window.location.pathname}`;
+    const shareText = `Check out ${activityName} at Mergington High School! ${details.description} (${formattedSchedule})`;
+
+    return {
+      title: `Mergington Activity: ${activityName}`,
+      text: shareText,
+      url: activityUrl,
+    };
+  }
+
+  function createWhatsAppShareUrl(shareData) {
+    return `https://wa.me/?text=${encodeURIComponent(
+      `${shareData.text} ${shareData.url}`
+    )}`;
+  }
+
+  function createEmailShareUrl(activityName, shareData) {
+    return `mailto:?subject=${encodeURIComponent(
+      `Check out ${activityName}`
+    )}&body=${encodeURIComponent(`${shareData.text}\n\n${shareData.url}`)}`;
+  }
+
+  async function shareActivity(shareData) {
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        if (error.name === "AbortError") {
+          return;
+        }
+      }
+    }
+
+    const shareMessage = `${shareData.text}\n${shareData.url}`;
+    try {
+      await navigator.clipboard.writeText(shareMessage);
+      showMessage("Share text copied. You can paste it anywhere.", "success");
+    } catch (error) {
+      showMessage("Sharing is not supported on this device.", "error");
+    }
+  }
+
   // Function to determine activity type (this would ideally come from backend)
   function getActivityType(activityName, description) {
     const name = activityName.toLowerCase();
@@ -498,6 +542,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
+    const shareData = getShareData(name, details, formattedSchedule);
+    const whatsappShareUrl = createWhatsAppShareUrl(shareData);
+    const emailShareUrl = createEmailShareUrl(name, shareData);
 
     // Create activity tag
     const tagHtml = `
@@ -569,6 +616,22 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-actions">
+        <button class="share-button" data-share-platform="native">
+          Share
+        </button>
+        <a
+          class="share-button share-link-button"
+          href="${whatsappShareUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          WhatsApp
+        </a>
+        <a class="share-button share-link-button" href="${emailShareUrl}">
+          Email
+        </a>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +649,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    const nativeShareButton = activityCard.querySelector(
+      '[data-share-platform="native"]'
+    );
+    nativeShareButton.addEventListener("click", () => {
+      shareActivity(shareData);
+    });
 
     activitiesList.appendChild(activityCard);
   }
