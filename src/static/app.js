@@ -336,15 +336,6 @@ document.addEventListener("DOMContentLoaded", () => {
     )}&body=${encodeURIComponent(`${shareData.text}\n\n${shareData.url}`)}`;
   }
 
-  function escapeHtmlAttribute(value) {
-    return value
-      .replaceAll("&", "&amp;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-  }
-
   async function shareActivity(shareData) {
     if (navigator.share) {
       try {
@@ -573,12 +564,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
     const shareData = getShareData(name, details, formattedSchedule);
-    const whatsappShareUrl = escapeHtmlAttribute(
-      createWhatsAppShareUrl(shareData)
-    );
-    const emailShareUrl = escapeHtmlAttribute(
-      createEmailShareUrl(name, shareData)
-    );
+    const whatsappShareUrl = createWhatsAppShareUrl(shareData);
+    const emailShareUrl = createEmailShareUrl(name, shareData);
 
     // Create activity tag
     const tagHtml = `
@@ -656,13 +643,14 @@ document.addEventListener("DOMContentLoaded", () => {
         </button>
         <a
           class="share-button share-link-button"
-          href="${whatsappShareUrl}"
+          href="#"
+          data-share-link="whatsapp"
           target="_blank"
           rel="noopener noreferrer"
         >
           WhatsApp
         </a>
-        <a class="share-button share-link-button" href="${emailShareUrl}">
+        <a class="share-button share-link-button" href="#" data-share-link="email">
           Email
         </a>
       </div>
@@ -691,6 +679,18 @@ document.addEventListener("DOMContentLoaded", () => {
       nativeShareButton.addEventListener("click", () => {
         shareActivity(shareData);
       });
+    }
+
+    const whatsappShareLink = activityCard.querySelector(
+      '[data-share-link="whatsapp"]'
+    );
+    if (whatsappShareLink) {
+      whatsappShareLink.setAttribute("href", whatsappShareUrl);
+    }
+
+    const emailShareLink = activityCard.querySelector('[data-share-link="email"]');
+    if (emailShareLink) {
+      emailShareLink.setAttribute("href", emailShareUrl);
     }
 
     activitiesList.appendChild(activityCard);
