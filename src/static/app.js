@@ -348,7 +348,10 @@ document.addEventListener("DOMContentLoaded", () => {
       await navigator.clipboard.writeText(shareMessage);
       showMessage("Share text copied. You can paste it anywhere.", "success");
     } catch (error) {
-      showMessage("Sharing is not supported on this device.", "error");
+      showMessage(
+        "Could not copy share text. Please copy the link manually.",
+        "error"
+      );
     }
   }
 
