@@ -336,6 +336,15 @@ document.addEventListener("DOMContentLoaded", () => {
     )}&body=${encodeURIComponent(`${shareData.text}\n\n${shareData.url}`)}`;
   }
 
+  function escapeHtmlAttribute(value) {
+    return value
+      .replaceAll("&", "&amp;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+  }
+
   async function shareActivity(shareData) {
     if (navigator.share) {
       try {
@@ -366,7 +375,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sharedActivity) {
       searchQuery = sharedActivity;
       searchInput.value = sharedActivity;
-      searchInput.dispatchEvent(new Event("input"));
     }
   }
 
@@ -565,8 +573,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
     const shareData = getShareData(name, details, formattedSchedule);
-    const whatsappShareUrl = createWhatsAppShareUrl(shareData);
-    const emailShareUrl = createEmailShareUrl(name, shareData);
+    const whatsappShareUrl = escapeHtmlAttribute(
+      createWhatsAppShareUrl(shareData)
+    );
+    const emailShareUrl = escapeHtmlAttribute(
+      createEmailShareUrl(name, shareData)
+    );
 
     // Create activity tag
     const tagHtml = `
